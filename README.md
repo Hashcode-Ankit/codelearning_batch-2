@@ -19,3 +19,8 @@
     * Graph
 
 # Happy Learning ❤️‍🔥	<br> Wishing you best career Ahead 🤗
+
+
+#### External Notes  : https://web322.ca/notes/
+
+
