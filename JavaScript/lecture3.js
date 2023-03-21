@@ -37,4 +37,4 @@ function hello(){
 }
 
 hello()
-// Design a mailing service using javascript in which you have to send mails on 3rd 5th and 10th day of user registration weekdays(mon to fri).
+// Design a mailing service using javascript in which you have to send mails on 3rd 5th and 10th day of user registration (only weekdays(mon to fri) allowed).
