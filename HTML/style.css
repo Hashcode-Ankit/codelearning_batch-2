@@ -1,9 +1,10 @@
-
-  section{
-      color:blue
-  }
+section{
+    color:white
+}
 
   ul{
+     max-width: 100%;
+      position:relative;
       background: gray;
       opacity: 0.5;
       margin-left: 70%;
@@ -17,4 +18,5 @@
       font-weight: 900;
       color:black;
       cursor: pointer;
+      margin-right: 20px;
   }

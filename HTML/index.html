@@ -8,21 +8,32 @@
 
     <title>Out First Page</title> 
     <style>
-        #home{
-           color:black 
+        body{
+            background-image: linear-gradient(to bottom,red, blue);
         }
-        .about{
-            color:green
+        @keyframes walkingNavbar {
+          to { color: red;margin-left:0px;transform: scale(1);}
+          from { color: black; margin-left: 1300px;transform: scale(3) }
         }
-        .about h1:hover{
-            color:maroon
+        .grid-container{
+            display: grid;
+            grid-template-columns: auto auto auto  ;
+            width: 300px;
+        }
+        .grid-item{
+            padding: 2px;
+            border: 2px solid white;
+            text-align: center;
+        }
+        .github{
+           color:white;
+           animation: walkingNavbar 3s infinite ;
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="https://github.com/Hashcode-Ankit/codelearning_batch-2" target="_blank" id="git">Github
-        </a>
+    <div class="github">Github</div> 
             <ul >
                 <li><a href="#home">Home</a></li>
                 <li><a href="#contact">Contact Us</a></li>
@@ -108,8 +119,32 @@
             Incidunt aspernatur veritatis corrupti iusto dicta assumenda omnis, sit harum laudantium vel in, eligendi id voluptatum, numquam deleniti enim ex laborum itaque! Dignissimos magni ipsum maxime non doloremque distinctio quod.
             Numquam unde culpa fuga labore cum, dolores excepturi consequuntur aspernatur dolorem dicta mollitia nam ducimus impedit enim nostrum, accusantium eligendi, itaque maxime odit. Repellendus iusto saepe iste, nam numquam magni?
             Inventore, vel ipsam assumenda exercitationem nihil, numquam, unde magni ut qui aut accusamus corrupti beatae maiores. Reiciendis consequatur beatae provident saepe nemo, dignissimos obcaecati nam enim adipisci mollitia velit placeat!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia earum impedit repellendus modi, nisi labore. Ipsam doloribus quo, maiores similique porro et enim asperiores vitae illum, veritatis ea ullam in!
+            Assumenda quam consequatur molestiae tenetur, laborum inventore a repellat repellendus enim dignissimos dicta vero quisquam! Modi voluptas magni, earum ipsum doloremque aliquam. Quos autem totam enim saepe. Voluptatibus, nostrum voluptatem.
+            Fugit itaque accusantium consectetur molestias nam modi consequatur porro. Nemo error veritatis quia numquam asperiores magnam, ducimus sint. Fugit cum reiciendis voluptatum nam sunt repellat tenetur consectetur sed quos voluptates.
+            Maxime ab explicabo cumque ratione aperiam, obcaecati nam? Accusamus, laborum. Facere eos repudiandae nam molestiae dolores alias perferendis corrupti, consequatur quos vitae voluptas officiis, iure ratione et soluta numquam reiciendis.
+            Enim aliquam vel cum et ullam doloremque! Doloribus omnis, libero deserunt, cumque ut hic voluptatum facere voluptatibus dolorum, possimus dicta voluptates quos. Laudantium perferendis aliquid voluptatum magnam voluptate aut recusandae.
+            Sed doloribus earum voluptatum assumenda provident minima, veniam deleniti laudantium ipsum commodi vero rerum molestiae. Maiores harum nobis, obcaecati quaerat doloribus neque placeat accusamus quod deserunt reprehenderit ipsam odio nulla.
+            Enim tempore voluptas maiores mollitia amet laudantium culpa reprehenderit iusto ducimus consequuntur commodi, quam cum laborum vel veniam quod, vitae nostrum, rem porro? Voluptatibus ipsam accusantium, tenetur minus assumenda aspernatur.
+            Unde autem ad soluta animi excepturi distinctio architecto, molestiae aliquid tempora harum illo vel doloribus quia quae eos tenetur sit amet nesciunt iure ab praesentium? Pariatur veniam expedita corrupti quasi?
+            Ipsum, architecto. Doloribus, ipsa nisi aspernatur consequuntur cum officia dolorum aliquid minus eveniet deleniti sed repellendus fuga illum laudantium provident itaque iusto fugiat magni ullam dolorem voluptatibus modi corrupti sequi?
+            Fugiat quisquam in nobis sit sapiente a saepe facilis, voluptatem qui! Consectetur vitae voluptas laudantium numquam excepturi officia cum neque asperiores cupiditate consequatur mollitia magnam illum perferendis nulla, quia at?
         </p>
     </section>
+    <section class="grid">
+        <div class="grid-container">
+                <div class="grid-item">1</div>
+                <div class="grid-item">2</div>
+                <div class="grid-item">3</div>
+                <div class="grid-item">4</div>
+                <div class="grid-item">5</div>
+                <div class="grid-item">6</div>
+                <div class="grid-item">7</div>
+                <div class="grid-item">8</div>
+                <div class="grid-item">9</div>
+        </div>
+    </section>
+
     <footer>
         <p> insta 1 </p>
         <button ><a href="#git">Go to Top</a></button>
