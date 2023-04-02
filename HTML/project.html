@@ -1,0 +1,159 @@
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <style>
+       .navbar{
+           display: flex;
+           justify-content: space-between;
+           background-image: linear-gradient(to left,blue, red);
+           margin:0px;
+       }
+       ul{
+           display: flex;
+           justify-content: space-between;
+           list-style: none;
+       }
+       ul li{
+           margin-left: 50px;
+       }
+       .calculator{
+           max-width: 500px;
+           margin:auto;
+           margin-top: 200px;
+       }
+       .buttons{
+           display: grid;
+           grid-template-columns: auto auto auto auto;
+       }
+       .nav-link {
+        cursor: pointer;
+       }
+       .btn{
+           text-align: center;
+           padding: 3px;
+           border: solid 1px black;
+           cursor: pointer;
+       }
+       .screen{
+           padding: 10px;
+           border: solid 1px;
+           text-align: end;
+       }
+       .black-theme{
+            background-color: rgb(3, 2, 2);
+            color:white
+       }
+       .light-theme {
+            background-color: rgb(227, 224, 224);
+            color:rgb(0, 0, 0)
+       }
+   </style>
+   <title>Document</title>
+</head>
+<body>
+   <header class="navbar">
+       <h1 id = "calc"><div>Calcultor</div></h1>
+       <ul>
+           <li class = "nav-link">Home</li>
+           <li class = "nav-link" id = "toggle">Toggle Theme</li>
+           <li  class = "nav-link">Contact</li>
+       </ul>
+   </header>
+   <section id ="calculatorID" class = "calculator light-theme">
+           <div class="screen" id ="screen">
+                       0
+           </div>
+           <div class="buttons" id = "buttons">
+               <!-- running the loop to get the numerical characters -->
+               <div class="btn" onclick="append('+')">+</div>
+               <div class="btn" onclick="append('-')">-</div>
+               <div class="btn" onclick="append('*')">*</div>
+               <div class="btn" onclick="append('/')">/</div>
+               <div class="btn" onclick="calc()">=</div>
+               <div class="btn" onclick="clearScreen()">Clear</div>
+           </div>
+   </section>
+</body>
+<script>
+        let lightThemeIsOn = true
+        function toggleTheme(){
+            let calculatorID = document.getElementById("calculatorID")
+            if(lightThemeIsOn){
+                calculatorID.classList.remove("light-theme")
+                calculatorID.classList.add("black-theme")
+                lightThemeIsOn = false;
+            }else{
+                calculatorID.classList.remove("black-theme")
+                calculatorID.classList.add("light-theme")
+                lightThemeIsOn = true;
+            }
+            
+        }
+        let toggle = document.getElementById("toggle")
+        toggle.addEventListener("click",()=>{
+            toggleTheme()
+        })
+        // rendering html template multiple times 
+        let calculatorButtons = document.getElementById("buttons")
+        for(let i=0;i<=9;i++){
+            calculatorButtons.innerHTML =  `<div class="btn" onclick="append(${i})">${i}</div>`+ calculatorButtons.innerHTML
+        }
+
+        let isEqualToClicked = false
+        function isCharOperator(text){
+            let lastChar  = text[0]
+            if(lastChar=="+" || lastChar == "-" || lastChar == "/" || lastChar == "*") {
+                return true
+            }
+            return false
+        }
+        function append(numberClicked){
+            let screen = document.getElementById("screen")  // 0
+            if (isEqualToClicked){   // Equal is clicked previously 
+                if(isCharOperator(numberClicked) ){ // check the coming number is an operator
+                 screen.innerText += numberClicked  // just append it inside our screen
+              }else{  // not an operator
+                screen.innerText = numberClicked // delete everything from screen and enter the number 
+              }
+                isEqualToClicked = false  // mark the equal click false
+                return
+            }
+            
+            if(screen.innerText==0 && isCharOperator(numberClicked)){
+                console.log("Error you are Entering character first")
+                return
+            }
+            if(isCharOperator(screen.innerText[screen.innerText.length-1]) &&  isCharOperator(numberClicked)){
+                console.log("Error their is already an operator")
+                return 
+            }
+            if(screen.innerText == 0){
+                screen.innerText = numberClicked //1
+            }
+            else {
+                 screen.innerText = screen.innerText + numberClicked // 01
+            }
+        }
+        function calc(){
+            try{
+                let screen = document.getElementById("screen")
+                if(screen.innerText == 0){
+                return
+                } 
+                screen.innerText = eval(screen.innerText) // evaluate the expression
+                isEqualToClicked = true
+            }catch(err){
+                console.log(err)
+            }
+        }
+        function clearScreen(){
+            let screen = document.getElementById("screen")   // screen element
+            screen.innerText = "0"
+        }
+</script>
+</html>
+
+
+
