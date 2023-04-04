@@ -9,16 +9,17 @@
 <body>
         <input type="number" id = "firstinput">
         <input type="number" id = "secondinput">
-        <button id = "cal" onclick="sum()">Cal Sum</button>
+        <button id = "cal">Cal Sum</button>
         <div>Sum : <p id ="sum"></p></div>
 </body>
 </html>
-<script src="/codelearning_batch-2/JavaScript/lecture3.js"></script>
+<script src="/codelearning_batch-2/JavaScript/lect6.js"></script>
 <script>
-    function sum(){
+    document.getElementById("cal").onclick = 
+    function sum(c){
         console.log("sum Got Called")
         let a = document.getElementById("firstinput").value
         let b = document.getElementById("secondinput").value
-        document.getElementById("sum").innerText = a+b
+        document.getElementById("sum").innerText = a+b+c
     }   
 </script>
