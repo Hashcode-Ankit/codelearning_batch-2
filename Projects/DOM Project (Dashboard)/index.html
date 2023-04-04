@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <title>Music Player</title>
+</head>
+<body>
+<div class="player">
+  <!-- Dashboard -->
+  <div class="dashboard" id = "dashboard">
+    <!-- Header -->
+    
+  </div>
+
+  <!-- Playlist -->
+  <div class="playlist" id = "playlist">
+    
+   
+  </div>
+</div>
+</body>
+<script>
+    let songsArray = []
+    function updateCurrentSong(idx){
+        let dashboard = document.getElementById("dashboard")
+        dashboard.innerHTML = `
+                <header>
+            <h4>Now playing:</h4>
+            <h2>${songsArray[idx].name}</h2>
+            </header>
+
+            <!-- CD -->
+            <div class="cd">
+            <div class="cd-thumb" style="background-image: url('${songsArray[idx].cover}')">
+            </div>
+            </div>
+
+            <audio id="audio" src="${songsArray[idx].audio}"></audio>`
+    }
+    function updateSongsLibrary(){
+        let playlist = document.getElementById("playlist")
+        for(let i=0;i<songsArray.length;i++){
+            playlist.innerHTML+=`
+            <div class="song">
+            <div class="thumb" style="background-image: url('${songsArray[i].cover}')">
+            </div>
+            <div class="body">
+                <h3 class="title">${songsArray[i].name}</h3>
+                <p class="author">${songsArray[i].artist}</p>
+            </div>
+            <div class="option">
+                <button onclick = updateCurrentSong(${i}) >Play</button>
+            </div>
+            </div>`
+        }
+    }
+    function getSongData(){
+        fetch("http://localhost:8080/",{
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => {
+        if (response.ok) {
+            return response.json()
+        }
+        }).then((data) => {
+            songsArray = data["data"]
+            updateSongsLibrary()
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    getSongData()
+</script>
+</html>
