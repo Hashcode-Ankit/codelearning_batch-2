@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <title>Music Player</title>
@@ -15,9 +16,45 @@
   <!-- Dashboard -->
   <div class="dashboard" id = "dashboard">
     <!-- Header -->
-    
-  </div>
+    <header>
+        
+        </header>
+        <div class="controls" style="display:flex;justify-content: space-around;">
+            <div class="prev" onclick="moveBackward()">
+                <svg width="23" height="27" viewBox="0 0 23 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8896 23.7417C19.6365 24.9935 22.0673 23.7449 22.0673 21.5958V5.40423C22.0673 3.25511 19.6365 2.0065 17.8896 3.25828L6.59146 11.3541C5.12173 12.4072 5.12173 14.5928 6.59147 15.6459L17.8896 23.7417Z" fill="#AFB5C0"/>
+        <rect y="4.26471" width="2" height="18" fill="#AFB5C0"/>
+        </svg>
+        
+            </div>
+                    <div class="play" id = "toggle">
+                        <svg v-if="!isPlaying" width="42" height="51" viewBox="0 0 42 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.05427 42.3186C7.29861 43.4702 4.96631 42.2107 4.96631 40.1111V4.8889C4.96631 2.78927 7.29861 1.52983 9.05427 2.68141L35.9034 20.2925C37.4928 21.335 37.4928 23.665 35.9034 24.7075L9.05427 42.3186Z" fill="#383E47"/>
+                        </svg>
+                                <span v-else></span>
+                    </div>
+                    <div class="next" onclick="moveForward()">
+                        <svg width="23" height="27" viewBox="0 0 23 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8896 23.7417C19.6365 24.9935 22.0673 23.7449 22.0673 21.5958V5.40423C22.0673 3.25511 19.6365 2.0065 17.8896 3.25828L6.59146 11.3541C5.12173 12.4072 5.12173 14.5928 6.59147 15.6459L17.8896 23.7417Z" fill="#AFB5C0"/>
+                <rect y="4.26471" width="2" height="18" fill="#AFB5C0"/>
+                </svg>
+            </div>
+        </div>
+       
+         <div id = "music-dash" >
+            <center><h4>Now playing:</h4>
+                <h2>Song Name</h2></center>
+            <!-- CD -->
+            <div class="cd">
+            <div class="cd-thumb" style="background-image: url('https://chillhop.com/wp-content/uploads/2020/09/0255e8b8c74c90d4a27c594b3452b2daafae608d-1024x1024.jpg')">
+            </div>
+            <audio id="audio" src=""></audio>
+            </div>
+        </div>
 
+      
+  </div>
+ 
   <!-- Playlist -->
   <div class="playlist" id = "playlist">
     
@@ -26,22 +63,55 @@
 </div>
 </body>
 <script>
+    let playing  = false
     let songsArray = []
+    let currentSong  = 0
     function updateCurrentSong(idx){
-        let dashboard = document.getElementById("dashboard")
+        let dashboard = document.getElementById("music-dash")
+        currentSong = idx
         dashboard.innerHTML = `
-                <header>
-            <h4>Now playing:</h4>
-            <h2>${songsArray[idx].name}</h2>
-            </header>
+            <center><h4>Now playing:</h4>
+                    <h2>${songsArray[idx].name}</h2></center>
+                <!-- CD -->
+                <div class="cd">
+                <div class="cd-thumb" style="background-image: url('${songsArray[idx].cover}')">
+                <audio id="audio" src="${songsArray[idx].audio}"></audio>
+                </div>
+                </div>
+              `
+    }
+    let toggleButton   = document.getElementById("toggle")
+    toggleButton.addEventListener("click",function (){
+        let audio  = document.getElementById("audio")
+        if(!playing){
+            audio.play()
+            console.log("playing audio")
+            toggleButton.innerHTML = `<i class="fa fa-pause" style="font-size:24px"></i>`
+            playing = true
+        }
+        else {
+            console.log("pause audio")
+            audio.pause()
+            toggleButton.innerHTML = `<i class="fa fa-play" style="font-size:24px"></i>`  // button code 
+            playing = false
+        }
+    })
+    function moveForward (){
+        toggleButton.innerHTML = `<i class="fa fa-play" style="font-size:24px"></i>`  // button code 
 
-            <!-- CD -->
-            <div class="cd">
-            <div class="cd-thumb" style="background-image: url('${songsArray[idx].cover}')">
-            </div>
-            </div>
-
-            <audio id="audio" src="${songsArray[idx].audio}"></audio>`
+        if(currentSong+1>=songsArray.length)  // I have 8 songs in my list and playing 8th song 
+           updateCurrentSong(0)
+        else {
+            updateCurrentSong(currentSong+1)   // update with the next index 
+        }
+    }
+    function moveBackward(){
+        toggleButton.innerHTML = `<i class="fa fa-play" style="font-size:24px"></i>`  // button code 
+        if(currentSong-1<0)  // if i am playing 0th song 
+        updateCurrentSong(songsArray.length-1)    // staart from the last song
+        else {
+            updateCurrentSong(currentSong-1) // decrease it 
+        }
     }
     function updateSongsLibrary(){
         let playlist = document.getElementById("playlist")
@@ -60,6 +130,7 @@
             </div>`
         }
     }
+    // making a req from the DOM Model
     function getSongData(){
         fetch("http://localhost:8080/",{
             headers: {
@@ -71,8 +142,8 @@
             return response.json()
         }
         }).then((data) => {
-            songsArray = data["data"]
-            updateSongsLibrary()
+            songsArray = data["data"] // appending whole data to the song array 
+            updateSongsLibrary()  // update the playlist
         })
         .catch((err)=>{
             console.log(err)
@@ -81,3 +152,8 @@
     getSongData()
 </script>
 </html>
+
+
+
+
+<!--  Assingment  create a Music Queue to play songs further just maintaining the index -->
