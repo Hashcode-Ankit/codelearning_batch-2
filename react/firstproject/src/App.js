@@ -3,18 +3,24 @@ import React,{Component} from 'react';
 import './App.css';
 
 class App extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state ={
-      inputText : 'ankit',
+      inputText : '',
       inputList : [],
     }
   }
   handleInput=(e)=>{
-      this.setState({inputText: e.target.val})
+      this.setState({inputText: e.target.value})
   }
+  handleInputListUpdate=()=>{
+      const inputText =  this.state.inputText
+      const inputList = this.state.inputList
+      this.setState({inputList : [...inputList,inputText],inputText : ''})
+  }
+
   render(){
-    const val = this.state.inputText
+    const {inputText,inputList} = this.state
     return (
        <div className="App">
           <header className="App-header">
@@ -22,10 +28,18 @@ class App extends Component {
              <input 
              type='text'
              placeholder='Enter Your Text'
-             value={val}
+             value={inputText}
              onChange={this.handleInput}
              />
+             <button onClick={this.handleInputListUpdate}>Submit</button>
+             {inputList.map((value,key)=>{
+                    return  (
+                      <p className= {this.props.color}>Here is value: {value}</p>
+                    )
+                })
+              }
             </p>
+               
           </header>
        </div> 
     )

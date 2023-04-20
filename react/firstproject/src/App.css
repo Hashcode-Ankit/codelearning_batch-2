@@ -18,7 +18,12 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.red {
+  color: red;
+}
+.blue{
+  color :blue
+}
 .App-header {
   min-height: 100vh;
   display: flex;
