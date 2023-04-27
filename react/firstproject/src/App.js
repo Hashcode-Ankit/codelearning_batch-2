@@ -1,6 +1,7 @@
-import logo from './banner.gif';
+// import logo from './banner.gif';
 import React,{Component} from 'react';
 import './App.css';
+import MyContext from './index.js'
 
 class App extends Component {
   constructor(props){
@@ -8,8 +9,9 @@ class App extends Component {
     this.state ={
       inputText : '',
       inputList : [],
-    }
+    }  
   }
+  // static contextType = MyContext;
   handleInput=(e)=>{
       this.setState({inputText: e.target.value})
   }
@@ -18,9 +20,15 @@ class App extends Component {
       const inputList = this.state.inputList
       this.setState({inputList : [...inputList,inputText],inputText : ''})
   }
-
+  componentDidMount=()=>{
+     console.log("component mounted or estd. in UI") // you can fetch api so that data will be here 
+  }
+  componentDidCatch =()=>{
+    console.log("error catched")
+  }
   render(){
     const {inputText,inputList} = this.state
+    console.log("rendereed")
     return (
        <div className="App">
           <header className="App-header">
