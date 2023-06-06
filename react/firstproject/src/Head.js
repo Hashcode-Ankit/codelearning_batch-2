@@ -1,28 +1,35 @@
-import { useState, useEffect,useContext } from "react";
-import MyContext  from './index'
-
+import { useState, useEffect,createContext } from "react";
+import Card from './card'
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+const DataContext = createContext();
 function Head() {
-    const [name,SetName] = useState(["ankit",2])
-    const [data,SetData] = useState("")
-
+    const [data,SetData] = useState([])
+    const [cookies, setCookie] = useCookies();
     // const currentContext = useContext(MyContext)
     useEffect(() => {
-      const headers = { 'Content-Type': 'application/json' }
-      fetch('https://api.npms.io/v2/search?q=react', { headers })
-          .then(response => response.json())
-          .then(data => SetData( JSON.stringify(data.results) )); 
-    },[]);
+      axios.post('http://localhost:8080/login', {
+        name: 'codeslearning',
+        password: '1234'
+      })
+      .then(function (response) {
+        console.log("response received: ",response.data.token)
+        setCookie('token', response.data.token, { path: '/' });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    },[]); // square braces provide context when to run the useEffect
   return (
     <>
-    <h1>Here is value {name[0]} {name[1]}</h1>
-    <h2>{data}</h2>
-    <button onClick={()=>SetName(["saurav",2])}>Click Me</button>
+     <DataContext.Provider value={data}>
+        <Card/>
+      </DataContext.Provider>
     </>
   );
 }
-
 export default Head;
-
+export { DataContext };
 // call the api get the data 
 // update other component by passing the data using context
 

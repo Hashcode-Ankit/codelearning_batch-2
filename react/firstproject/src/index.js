@@ -4,26 +4,30 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import Head from './Head'
+import NavBar from './nav';
+import Footer from './footer';
+// import User from './user';
+import Register from './register';
+
 let MyContext = createContext()
 
 
 let user  = ["username","password"]
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render( // render method only retuns one tag and that is why for one tag purpose we use fragments
   <>
+     <NavBar/>
      <BrowserRouter>
       <Routes>
         <Route path="/head" element={<Head />} />
         <Route path="/index" element={<App />} />
+        {/* <Route path="/User" element={<User />} /> */}
+        <Route path="/register" element={<Register />} />
       </Routes>
      </BrowserRouter> 
-      <li><a href ="/head">Head</a></li>
-      <li><a href ="/index">App</a></li> 
+     <Footer/>
   </>
-  // <App color = "red"/>
-  // <MyContext.Provider value = {user} >
-  //    <Head/>
-  // </MyContext.Provider>
  
 );
 
