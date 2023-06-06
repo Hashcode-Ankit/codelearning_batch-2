@@ -10,7 +10,6 @@ function storeDataInJsonFile(receivedData){
 }
 function storeUser(data) {
     dbData = require('./data.json')
-    console.log(data)
     const fs = require('fs')
     dbData.push(data)
     err = fs.writeFile('data.json', JSON.stringify(dbData),()=>{})
@@ -28,7 +27,10 @@ function authenticateUser(data){
     }
     return false
 }
-module.exports = {storeDataInJsonFile,storeUser,authenticateUser}
+function getAllUsers() {
+   return require('./data.json')
+}
+module.exports = {storeDataInJsonFile,storeUser,authenticateUser,getAllUsers}
 
 // When we are creating request request from browser easy way to authenticate an API is COOKIE
 // If the request is created from different server in that case token authentication is used

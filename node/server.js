@@ -1,5 +1,6 @@
 const express = require('express')
 const cors=require('cors');
+const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const app = express()
 const API = require('./api')
@@ -14,14 +15,22 @@ app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
 });
-function isUserLogin(req, res, next){
-    if (!req.session) {
-        console.log("their is no session present")
-    } else {
-        next();
-    }
-}
 
+function isUserLogin(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+      return res.sendStatus(401);
+    }
+  
+    jwt.verify(token, 'aks', (err, username) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+      req.name = username;
+      next();
+    });
+}
 app.get('/codes-learning/:id',(req,res)=>{  
     const id = req.params["id"]
     console.log("here is id received : ",id)
@@ -33,10 +42,14 @@ app.post('/user-details',isUserLogin,(req,res)=>{
     res.status(200).json({"message":"success"})
 })
 
+app.get('/user-details',isUserLogin,(req,res)=>{
+    const data =  API.getAllUsers()
+    res.status(200).json({"Users":data})
+})
 app.post('/register',(req,res)=>{
     const data = req.body
     API.storeUser(data)
-    res.status(200).json({"message":"success"})
+    res.status(503).json({"message":"success"})
 })
 app.get('/login',(req,res)=>{
     res.status(200).json({"message":"login page"})
@@ -44,12 +57,11 @@ app.get('/login',(req,res)=>{
 app.post('/login',(req,res,next)=>{
     const data = req.body
     if (API.authenticateUser(data)) {
-        req.session = {
-            username : req.body.username
-        }
-        res.redirect('/')
+        const token = jwt.sign({ username: data.name }, 'aks', { expiresIn: '1h' });
+        res.status(200).json({"token":token})
+    }else{
+        res.status(403).json({"Error":"User not authorized"})
     }
-    res.status(200).json({"message":"incorrect password"})
 })
 app.listen(8080,()=>{
     console.log("listening on port 8080")
