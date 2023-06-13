@@ -1,3 +1,5 @@
+const mongo = require('./mongo')
+
 function storeDataInJsonFile(receivedData){
     data = require('./data.json')
     // var data = fs.readFileSync('./data.json');
@@ -8,11 +10,15 @@ function storeDataInJsonFile(receivedData){
     err = fs.writeFile('data.json', JSON.stringify(data),()=>{})
     
 }
+function initMongo(){
+    return mongo.connect()
+}
 function storeUser(data) {
-    dbData = require('./data.json')
-    const fs = require('fs')
-    dbData.push(data)
-    err = fs.writeFile('data.json', JSON.stringify(dbData),()=>{})
+
+    // dbData = require('./data.json')
+    // const fs = require('fs')
+    // dbData.push(data)
+    // err = fs.writeFile('data.json', JSON.stringify(dbData),()=>{})
 }
 function authenticateUser(data){
     dbData = require('./data.json')
@@ -30,7 +36,16 @@ function authenticateUser(data){
 function getAllUsers() {
    return require('./data.json')
 }
-module.exports = {storeDataInJsonFile,storeUser,authenticateUser,getAllUsers}
+function registerUser(data){
+    return mongo.registerUser(data)
+}
+function getUserFromMongo(username){
+    return mongo.getUserWithUsername(username)
+}
+function deleteUserFromMongo(username){
+    return mongo.deleteUser(username)
+}
+module.exports = {storeDataInJsonFile,storeUser,authenticateUser,getAllUsers,initMongo,registerUser,getUserFromMongo,deleteUserFromMongo}
 
 // When we are creating request request from browser easy way to authenticate an API is COOKIE
 // If the request is created from different server in that case token authentication is used
