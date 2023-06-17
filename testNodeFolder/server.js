@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 // 1. The api endpoint 
 // 2. Api Contract 
 // 3. What is your success response and error response
-// Every api is two way communication  tcp and udp 
+
 app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
@@ -42,22 +42,10 @@ app.post('/user-details',isUserLogin,(req,res)=>{
     res.status(200).json({"message":"success"})
 })
 
-app.get('/user-details',isUserLogin,(req,res)=>{
-    const data =  API.getAllUsers()
-    res.status(200).json({"Users":data})
-})
 app.post('/register',(req,res)=>{
-    try{
-        const data = req.body
-        API.registerUser(data).then((data)=>{
-            res.status(200).json({"message":"success"})
-        }).catch((err)=>{
-            res.status(401).json({"error":err})
-        })
-    }catch(err){
-        res.status(401).json({"error":"an exception occurs"+err})
-    }
-    
+    const data = req.body
+    API.storeUser(data)
+    res.status(200).json({"message":"success"})
 })
 app.get('/login',(req,res)=>{
     res.status(200).json({"message":"login page"})
@@ -67,30 +55,11 @@ app.post('/login',(req,res,next)=>{
     if (API.authenticateUser(data)) {
         const token = jwt.sign({ username: data.name }, 'aks', { expiresIn: '1h' });
         res.status(200).json({"token":token})
-    }else{
-        res.status(403).json({"Error":"User not authorized"})
     }
-})
-app.get('/user/:username',(req,res,next)=>{
- API.getUserFromMongo(req.params.username).then((data)=>{
-    res.status(200).json({"user":data})
- }).catch((err)=>{
-    res.status(401).json({"error":err})
- })
-})
-app.delete('/user/:username',(req,res,next)=>{
- API.deleteUserFromMongo(req.params.username).then((data)=>{
-    res.status(200).json({"user":"user deleted"})
- }).catch((err)=>{
-    res.status(401).json({"error":err})
- })
+    res.status(403).json({"Error":"User not authorized"})
 })
 app.listen(8080,()=>{
-    API.initMongo().then(()=>{
-        console.log("listening on port 8080")
-    }).catch((err)=>{
-        console.log("error initializing mongodb")
-    })
+    console.log("listening on port 8080")
 })
 
 // -> Register
@@ -101,12 +70,3 @@ app.listen(8080,()=>{
 // -> Product pages
 
 // -> Docker Image Building (Alpine linux) 
-
-
-
-// First login and register 
-// Music collection and user collection
-// A page on which music will be showed based on user preferences
-// User profile
-// 10 songs per hour
-// chegg.com
